@@ -1,10 +1,22 @@
+/* Poppins from GOOGLE FONTS  */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #bc1b2f;
+}
 
 body {
   max-width: 100%;
   overflow-x: hidden;
+  font-family: "Poppins", serif;
 }
 
 .max-width {
-  @apply max-w-[1280px] mx-auto;
+  @apply max-w-[1280px] mx-auto px-4;
+}
+
+.active {
+  @apply text-primary;
 }
