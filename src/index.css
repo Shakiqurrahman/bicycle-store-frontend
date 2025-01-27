@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.max-width {
+  @apply max-w-[1280px] mx-auto;
+}
