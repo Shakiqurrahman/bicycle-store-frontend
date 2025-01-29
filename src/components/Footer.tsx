@@ -21,7 +21,7 @@ const Footer = () => {
                 SUPPORT MAIL :{" "}
                 <Link
                   to={"mailto:customerservice@bicyclestore.com"}
-                  className="font-medium text-black"
+                  className="font-medium text-black hover:text-primary duration-300"
                 >
                   customerservice@bicyclestore.com
                 </Link>
@@ -32,14 +32,17 @@ const Footer = () => {
             <h1 className="mb-5 md:mb-2 font-bold">QUICK LINKS</h1>
             <ul className="flex items-center gap-5">
               <li>
-                <Link to={"/"} className="text-gray-600 text-sm sm:text-base">
+                <Link
+                  to={"/"}
+                  className="text-gray-600 hover:text-primary duration-300 text-sm sm:text-base"
+                >
                   Home
                 </Link>
               </li>
               <li>
                 <Link
                   to={"/product"}
-                  className="text-gray-600 text-sm sm:text-base"
+                  className="text-gray-600 hover:text-primary duration-300 text-sm sm:text-base"
                 >
                   Product
                 </Link>
@@ -47,7 +50,7 @@ const Footer = () => {
               <li>
                 <Link
                   to={"/about"}
-                  className="text-gray-600 text-sm sm:text-base"
+                  className="text-gray-600 hover:text-primary duration-300 text-sm sm:text-base"
                 >
                   About
                 </Link>
@@ -55,7 +58,7 @@ const Footer = () => {
               <li>
                 <Link
                   to={"/contact"}
-                  className="text-gray-600 text-sm sm:text-base"
+                  className="text-gray-600 hover:text-primary duration-300 text-sm sm:text-base"
                 >
                   Contact
                 </Link>
@@ -79,7 +82,7 @@ const Footer = () => {
               <li>
                 <Link
                   to={""}
-                  className="text-white bg-black size-10 flex items-center justify-center"
+                  className="text-white bg-black hover:bg-primary duration-300 size-10 flex items-center justify-center"
                 >
                   <FaFacebookF />
                 </Link>
@@ -87,7 +90,7 @@ const Footer = () => {
               <li>
                 <Link
                   to={""}
-                  className="text-white bg-black size-10 flex items-center justify-center"
+                  className="text-white bg-black hover:bg-primary duration-300 size-10 flex items-center justify-center"
                 >
                   <FaPinterestP />
                 </Link>
@@ -95,7 +98,7 @@ const Footer = () => {
               <li>
                 <Link
                   to={""}
-                  className="text-white bg-black size-10 flex items-center justify-center"
+                  className="text-white bg-black hover:bg-primary duration-300 size-10 flex items-center justify-center"
                 >
                   <FaXTwitter />
                 </Link>
