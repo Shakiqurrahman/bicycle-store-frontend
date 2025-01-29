@@ -1,4 +1,5 @@
 import { Outlet, ScrollRestoration } from "react-router";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 const PublicLayout = () => {
@@ -6,6 +7,7 @@ const PublicLayout = () => {
     <main>
       <Header />
       <Outlet />
+      <Footer />
       <ScrollRestoration />
     </main>
   );

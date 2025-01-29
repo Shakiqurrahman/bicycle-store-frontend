@@ -11,6 +11,7 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   font-family: "Poppins", serif;
+  background-color: #f5f5f5;
 }
 
 .max-width {
@@ -19,4 +20,10 @@ body {
 
 .active {
   @apply text-primary;
+}
+
+/* Change inactive & active dot color */
+.ant-carousel .slick-dots li button,
+.ant-carousel .slick-dots li.slick-active button {
+  @apply bg-primary! w-1;
 }
