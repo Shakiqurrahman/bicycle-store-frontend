@@ -1,25 +1,19 @@
 import { BsCart4 } from "react-icons/bs";
 import { FaCircleCheck } from "react-icons/fa6";
-import image from "../assets/images/hero1.jpg";
-import { IoEyeOutline } from "react-icons/io5";
 import { HiViewfinderCircle } from "react-icons/hi2";
+import { TProductData } from "../Redux/features/cart/cartSlice";
 
-type Tproduct = {
-  image: string;
-  title: string;
-  price: number;
-};
-const ProductCard = ({ product }: Tproduct) => {
+const ProductCard = ({ product }: TProductData) => {
   return (
     <div className="p-4 bg-white rounded-lg shadow">
       <img
         className="w-full h-[280px] object-cover bg-body mix-blend-multiply"
-        src={image}
+        src={product?.image}
         alt="Image"
       />
       <div className="px-1">
         <h2 className="mt-2 mb-1 text-xl font-semibold line-clamp-2">
-          Product Name
+          {product?.name}
         </h2>
         <div className="flex items-center justify-between">
           <p className="text-xl font-bold text-primary">$19.99</p>
