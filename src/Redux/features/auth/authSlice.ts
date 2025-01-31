@@ -14,14 +14,19 @@ export type TUserData = {
   email: string;
   role: "admin" | "customer";
   isBlocked: boolean;
+  avatar: string;
+};
+const initialState: {
+  user: TUserData | null;
+  token: string | null;
+} = {
+  user: null,
+  token: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    user: null,
-    token: null,
-  },
+  initialState,
   reducers: {
     setCredentials: (state, action) => {
       const { user, token } = action.payload;

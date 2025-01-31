@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router";
+import ProtectedRoute from "../Layouts/ProtectedRoute";
 import PublicLayout from "../Layouts/PublicLayout";
 import AboutPage from "../Pages/AboutPage";
 import ContactUs from "../Pages/ContactUs";
@@ -19,7 +20,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/me",
-        element: <ProfilePage />,
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/about",

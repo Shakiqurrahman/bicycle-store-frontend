@@ -9,8 +9,7 @@ type TProtectedRoute = {
 const RedirectIfLoggedIn = ({ children }: TProtectedRoute) => {
   const navigate = useNavigate();
   const token = useAppSelector(useCurrentToken);
-  console.log(token);
-  
+
   if (token) {
     navigate("/", { replace: true });
   }

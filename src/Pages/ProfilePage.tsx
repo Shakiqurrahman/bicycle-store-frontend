@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AiOutlineLoading3Quarters,
   AiOutlineMail,
@@ -12,6 +12,7 @@ import ChangePassword from "../components/ChangePassword";
 import { useGetMeQuery } from "../Redux/features/user/userApi";
 
 const ProfilePage = () => {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data, isLoading } = useGetMeQuery(null);
 
   // Initialize form with fetched user data
@@ -19,8 +20,24 @@ const ProfilePage = () => {
     name: data?.data?.name || "",
     email: data?.data?.email || "",
     password: "",
-    avatar: data.data?.avatar || "",
+    avatar: data?.data?.avatar || "",
   });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Create a FileReader instance
+      const reader = new FileReader();
+
+      // Set up the reader to update the state once the file is read
+      reader.onloadend = () => {
+        setForm({ ...form, avatar: reader.result as string });
+      };
+
+      // Read the file as a data URL (base64)
+      reader.readAsDataURL(file);
+    }
+  };
 
   const [form, setForm] = useState(initialForm);
   const [isModified, setIsModified] = useState(false);
@@ -59,7 +76,6 @@ const ProfilePage = () => {
   const handleCancel = () => {
     setForm(initialForm);
   };
-
   return isLoading ? (
     <div className="h-[calc(100vh_-_80px)] flex justify-center items-center">
       <AiOutlineLoading3Quarters className="animate-spin text-4xl" />
@@ -75,16 +91,32 @@ const ProfilePage = () => {
           <div className="w-full max-w-[500px]">
             <div className="flex items-center gap-6">
               <img
-                className="size-24 sm:size-28 object-cover"
-                src={defaultAvatar}
+                className="size-24 rounded-full border border-gray-200 shadow sm:size-28 object-cover"
+                src={form.avatar || defaultAvatar}
                 alt=""
+              />
+              {/* Hidden File Input */}
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
               />
 
               <div className="space-y-4">
-                <button className="flex items-center gap-2 cursor-pointer text-primary border border-primary px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-sm font-medium">
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  type="button"
+                  className="flex items-center gap-2 cursor-pointer text-primary border border-primary px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-sm font-medium"
+                >
                   <AiOutlinePicture className="text-base" /> Change
                 </button>
-                <button className="flex items-center gap-2 cursor-pointer text-primary hover:text-primary/85 border border-primary px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-sm font-medium">
+                <button
+                  type="button"
+                  disabled={!form.avatar}
+                  className="flex items-center gap-2 cursor-pointer text-primary hover:text-primary/85 border border-primary px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed"
+                >
                   <RiDeleteBinLine className="text-base" /> Remove
                 </button>
               </div>

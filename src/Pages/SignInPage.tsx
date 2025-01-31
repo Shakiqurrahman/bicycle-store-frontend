@@ -3,11 +3,10 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useLoginMutation } from "../Redux/features/auth/authApi";
-import { setCredentials, TUser } from "../Redux/features/auth/authSlice";
+import { setCredentials } from "../Redux/features/auth/authSlice";
 import { useAppDispatch } from "../Redux/hook";
-import { verifyToken } from "../utils/verifyToken";
 import { loginSchema } from "../zodSchema/authSchema";
 
 type TLoginError = {
@@ -22,6 +21,9 @@ type FormData = {
 const SignInPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const [showPassword, setShowPassword] = useState(false);
   const [loginHandler, { isLoading }] = useLoginMutation();
@@ -45,9 +47,11 @@ const SignInPage = () => {
         password: data.password,
       }).unwrap();
       toast.success("Login successful");
-      const user = verifyToken(res?.data?.accessToken) as TUser;
-      dispatch(setCredentials({ user, token: res.data.accessToken }));
-      navigate("/");
+
+      dispatch(
+        setCredentials({ user: res.data.user, token: res.data.accessToken })
+      );
+      navigate(from, { replace: true });
     } catch (err) {
       const typedError = err as TLoginError;
       toast.error(typedError?.data?.message || "Login failed");

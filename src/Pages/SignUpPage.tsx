@@ -1,17 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useRegisterMutation } from "../Redux/features/auth/authApi";
+import { setCredentials } from "../Redux/features/auth/authSlice";
+import { useAppDispatch } from "../Redux/hook";
+import { TError } from "../types/globalTypes";
 import { registerSchema } from "../zodSchema/authSchema";
 
 type FormData = {
-  username: string;
+  name: string;
   email: string;
   password: string;
 };
 const SignUpPage = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const [registerHandler, { isLoading }] = useRegisterMutation();
@@ -19,19 +25,34 @@ const SignUpPage = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    // Handle form submission, e.g., send data to an API
+  const onSubmit = async (data: FormData) => {
+    try {
+      const res = await registerHandler({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      }).unwrap();
+      reset();
+      dispatch(
+        setCredentials({ user: res.data.user, token: res.data.accessToken })
+      );
+      toast.success("Signup successful!");
+      navigate("/");
+    } catch (error) {
+      const err = error as TError;
+      toast.error(err.data.message || "Signup failed");
+    }
   };
   return (
     <section className="bg-[#f2f2f2] flex flex-col h-screen justify-center items-center">
@@ -42,7 +63,7 @@ const SignUpPage = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           {/* Username Input */}
           <Controller
-            name="username"
+            name="name"
             control={control}
             render={({ field }) => (
               <>
@@ -50,13 +71,13 @@ const SignUpPage = () => {
                   type="text"
                   {...field}
                   className={`border ${
-                    errors.username ? "border-red-500" : "border-black/15"
+                    errors.name ? "border-red-500" : "border-black/15"
                   } outline-none w-full py-2 px-4 rounded-lg placeholder:text-sm focus:border-primary duration-300`}
                   placeholder="Full Name"
                 />
-                {errors.username && (
+                {errors.name && (
                   <p className="text-red-500 text-sm mt-1">
-                    {errors.username.message}
+                    {errors.name.message}
                   </p>
                 )}
               </>

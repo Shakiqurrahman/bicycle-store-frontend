@@ -85,13 +85,13 @@ const Header = () => {
                 />
               </button>
             </div>
-            {user || token ? (
+            {token ? (
               <div className="relative" ref={profileRef}>
                 <img
                   onClick={() => setOpenProfile(!openProfile)}
                   className="flex-shrink-0 size-12 rounded-full bg-primary-300 object-center overflow-hidden  cursor-pointer"
                   src={user?.avatar ? user?.avatar : defaultAvatar}
-                  alt={user?.fullName}
+                  alt={user?.name}
                 />
                 {openProfile && (
                   <DropdownProfile close={() => setOpenProfile(false)} />
