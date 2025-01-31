@@ -2,11 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type TProductData = {
   _id: string;
-  title: string;
+  type: string;
+  name: string;
+  brand: string;
   price: number;
   quantity: number;
-  image: string;
-  brand: string;
+  description: string;
+  inStock: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
 
 type CartState = {

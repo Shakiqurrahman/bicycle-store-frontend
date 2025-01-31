@@ -28,3 +28,11 @@ body {
 .ant-carousel .slick-dots li.slick-active button {
   @apply bg-primary! w-1;
 }
+
+.outlined-text {
+  font-size: 150px;
+  font-weight: bold;
+  color: transparent;
+  -webkit-text-stroke: 0.4px white;
+  user-select: none;
+}

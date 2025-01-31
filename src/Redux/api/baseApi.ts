@@ -20,7 +20,6 @@ const baseQuery = fetchBaseQuery({
     if (token) {
       headers.set("authorization", `${token}`);
     }
-
     return headers;
   },
 });
@@ -32,16 +31,8 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 > = async (args, api, extraOptions): Promise<any> => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result?.error?.status === 404) {
-    // toast.error(result.error.data.message);
-  }
-  if (result?.error?.status === 401) {
-    // toast.error(result.error.data.message);
-  }
   if (result?.error?.status === 403) {
     //* Send Refresh
-    console.log("Sending refresh token");
-
     const res = await fetch(`${config.api_url}/auth/refresh-token`, {
       method: "POST",
       credentials: "include",

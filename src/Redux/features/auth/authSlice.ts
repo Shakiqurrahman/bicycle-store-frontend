@@ -8,6 +8,14 @@ export type TUser = {
   exp: number;
 };
 
+export type TUserData = {
+  _id: string;
+  name: string;
+  email: string;
+  role: "admin" | "customer";
+  isBlocked: boolean;
+};
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {

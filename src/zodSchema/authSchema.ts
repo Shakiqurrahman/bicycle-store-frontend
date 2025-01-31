@@ -23,3 +23,20 @@ export const loginSchema = z.object({
     .string({ required_error: "Password is required" })
     .min(6, "Password must be at least 6 characters"),
 });
+
+export const passwordSchema = z
+  .object({
+    currentPassword: z
+      .string()
+      .min(6, { message: "Current password is required" }),
+    newPassword: z
+      .string()
+      .min(6, { message: "New password must be at least 6 characters long" }),
+    confirmPassword: z
+      .string()
+      .min(6, { message: "Confirmation password is required" }),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"], // This ensures the error is shown under the confirmPassword field
+  });

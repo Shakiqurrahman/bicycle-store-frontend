@@ -74,6 +74,7 @@ const SignInPage = () => {
                     errors.email ? "border-red-500" : "border-black/15"
                   } outline-none w-full py-2 px-4 rounded-lg placeholder:text-sm focus:border-primary duration-300`}
                   placeholder="Email"
+                  autoComplete="email"
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm mt-1">
@@ -97,6 +98,7 @@ const SignInPage = () => {
                     errors.password ? "border-red-500" : "border-black/15"
                   } focus:border-primary outline-none w-full py-2 px-4 rounded-lg mt-4 placeholder:text-sm duration-300`}
                   placeholder="Password"
+                  autoComplete="password"
                 />
                 {errors.password && (
                   <p className="text-red-500 text-sm mt-1">

@@ -1,12 +1,16 @@
+import toast from "react-hot-toast";
 import { Link } from "react-router";
+import PageBanner from "../components/PageBanner";
 
 const ContactUs = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.error("Improvements are underway, stay tuned!");
+  };
   return (
-    <div className="mt-10">
-      <h1 className="text-3xl sm:text-4xl text-center font-bold mb-16">
-        Contact us
-      </h1>
-      <div className="max-width">
+    <div>
+      <PageBanner pageName="Contact" title="Contact us" />
+      <div className="max-width mt-16">
         <div className="flex flex-wrap md:flex-nowrap gap-5">
           <div className="w-full md:w-[40%] py-10 px-8 bg-primary/5 shadow rounded-lg">
             <h1 className="font-bold mb-2 text-lg">CONTACT INFO</h1>
@@ -30,7 +34,10 @@ const ContactUs = () => {
           </div>
           <div className="w-full md:w-[60%] bg-white py-10 px-6 sm:p-10 rounded-lg shadow">
             <h1 className="mb-5 font-bold">LEAVE US A MESSAGE</h1>
-            <form className="flex flex-wrap gap-y-5 justify-between">
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-wrap gap-y-5 justify-between"
+            >
               <input
                 type="text"
                 name="name"
@@ -56,7 +63,7 @@ const ContactUs = () => {
               ></textarea>
               <button
                 type="submit"
-                className="w-full bg-primary text-white font-medium outline-none p-3 rounded-lg"
+                className="cursor-pointer w-full bg-primary text-white font-medium outline-none p-3 rounded-lg"
               >
                 SUBMIT
               </button>

@@ -3,12 +3,14 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { HiViewfinderCircle } from "react-icons/hi2";
 import { TProductData } from "../Redux/features/cart/cartSlice";
 
-const ProductCard = ({ product }: TProductData) => {
+const ProductCard = ({ product }: { product: TProductData }) => {
+  // console.log(product);
+
   return (
     <div className="p-4 bg-white rounded-lg shadow">
       <img
         className="w-full h-[280px] object-cover bg-body mix-blend-multiply"
-        src={product?.image}
+        // src={product?.}
         alt="Image"
       />
       <div className="px-1">

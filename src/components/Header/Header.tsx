@@ -1,21 +1,34 @@
+import { useEffect, useRef, useState } from "react";
 import { BsCart4 } from "react-icons/bs";
-import { FaUser } from "react-icons/fa";
 import { IoSearchSharp } from "react-icons/io5";
-import { Link, NavLink, useNavigate } from "react-router";
-import logo from "../assets/images/bicycle logo - Copy.png";
-import { logout, selectCurrentUser } from "../Redux/features/auth/authSlice";
-import { toggleCartDrawer } from "../Redux/features/cart/cartSlice";
-import { useAppDispatch, useAppSelector } from "../Redux/hook";
-import CartDrawer from "./CartDrawer";
+import { Link, NavLink } from "react-router";
+import logo from "../../assets/images/bicycle logo - Copy.png";
+import defaultAvatar from "../../assets/images/no-profile-picture.svg";
+import {
+  selectCurrentUser,
+  useCurrentToken,
+} from "../../Redux/features/auth/authSlice";
+import { toggleCartDrawer } from "../../Redux/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "../../Redux/hook";
+import CartDrawer from "../CartDrawer";
+import DropdownProfile from "./DropdownProfile";
 const Header = () => {
+  const profileRef = useRef<HTMLDivElement>(null);
   const user = useAppSelector(selectCurrentUser);
+  const token = useAppSelector(useCurrentToken);
+  const [openProfile, setOpenProfile] = useState(false);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/sign-in");
-  };
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!profileRef.current?.contains(e.target as Node))
+        setOpenProfile(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <header className="sticky top-0 z-[99] bg-white/50 backdrop-blur-md">
       <div className="max-width ">
@@ -72,9 +85,17 @@ const Header = () => {
                 />
               </button>
             </div>
-            {user ? (
-              <div onClick={handleLogout}>
-                <FaUser className="text-4xl p-1 rounded-full border cursor-pointer" />
+            {user || token ? (
+              <div className="relative" ref={profileRef}>
+                <img
+                  onClick={() => setOpenProfile(!openProfile)}
+                  className="flex-shrink-0 size-12 rounded-full bg-primary-300 object-center overflow-hidden  cursor-pointer"
+                  src={user?.avatar ? user?.avatar : defaultAvatar}
+                  alt={user?.fullName}
+                />
+                {openProfile && (
+                  <DropdownProfile close={() => setOpenProfile(false)} />
+                )}
               </div>
             ) : (
               <Link to={"/sign-in"}>
