@@ -5,6 +5,7 @@ import AboutPage from "../Pages/AboutPage";
 import ContactUs from "../Pages/ContactUs";
 import ErrorPage from "../Pages/ErrorPage";
 import HomePage from "../Pages/HomePage";
+import ProductPage from "../Pages/ProductPage";
 import ProfilePage from "../Pages/ProfilePage";
 import SignInPage from "../Pages/SignInPage";
 import SignUpPage from "../Pages/SignUpPage";
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
             <ProfilePage />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "/shop",
+        element: <ProductPage />,
       },
       {
         path: "/about",

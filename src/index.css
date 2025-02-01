@@ -6,6 +6,7 @@
 @theme {
   --color-primary: #bc1b2f;
   --color-body: #f5f5f5;
+  --color-blackish: #212529;
 }
 
 body {
@@ -35,4 +36,48 @@ body {
   color: transparent;
   -webkit-text-stroke: 0.4px white;
   user-select: none;
+}
+
+.ant-input-search-button {
+  background-color: #bc1b2f !important;
+  border: none !important;
+  color: white;
+}
+
+/* Optional: Add hover effect */
+.custom-search .ant-input-search-button:hover {
+  background-color: #b32f3e !important;
+}
+.custom-search .ant-input-outlined:focus-within,
+.ant-input-outlined:hover {
+  border-color: #c03434 !important;
+  box-shadow: none;
+}
+
+/* Customize the slider */
+.ant-slider .ant-slider-rail {
+  height: 10px !important;
+  background-color: #d9d9d9 !important;
+  border-radius: 5px;
+}
+
+.ant-slider .ant-slider-track {
+  height: 10px !important;
+  background-color: #b32f3e !important;
+  border-radius: 5px;
+}
+
+/* Customize the handle (circle knob) */
+.ant-slider .ant-slider-handle {
+  width: 20px !important;
+  height: 20px !important;
+  margin-top: -3px !important;
+  background-color: white !important;
+  border: 2px solid #b32f3e !important;
+  transition: box-shadow 0.3s ease;
+  border-radius: 100%;
+}
+
+.ant-slider-handle::after {
+  display: none;
 }

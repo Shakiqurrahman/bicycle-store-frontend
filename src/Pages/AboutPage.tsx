@@ -33,7 +33,7 @@ const AboutPage = () => {
               we ensure your ride is always smooth and enjoyable. Join us and be
               part of a passionate cycling community!
             </p>
-            <Link to={"/products"}>
+            <Link to={"/shop"}>
               <button className="cursor-pointer mt-6 text-primary bg-white border border-gray-200 px-6 py-3 rounded-xl text-lg font-medium transition">
                 Explore Our Bikes
               </button>

@@ -27,7 +27,7 @@ const Hero = () => {
             The sound of the throttle makes me fall in love with our bike. King
             of the bikes.
           </p>
-          <Link to={"/products"}>
+          <Link to={"/shop"}>
             <button className="mt-4 md:mt-10 bg-white text-primary border border-primary py-2 md:py-4 px-5 md:px-10 rounded-full font-semibold text-sm md:text-lg tracking-wider cursor-pointer hover:bg-primary hover:text-white duration-300 uppercase">
               Explore Now
             </button>
@@ -49,7 +49,7 @@ const Hero = () => {
             happen on two wheels. Ride it like a pro it’s not just riding, it’s
             a feeling. Ride and live today.
           </p>
-          <Link to={"/products"}>
+          <Link to={"/shop"}>
             <button className="mt-4 md:mt-10 bg-white text-primary border border-primary py-2 md:py-4 px-5 md:px-10 rounded-full font-semibold text-sm md:text-lg tracking-wider cursor-pointer hover:bg-primary hover:text-white duration-300 uppercase">
               Explore Now
             </button>
@@ -71,7 +71,7 @@ const Hero = () => {
             never owned one, you will never understand. A bike on the road is
             worth two in the shed.
           </p>
-          <Link to={"/products"}>
+          <Link to={"/shop"}>
             <button className="mt-4 md:mt-10 bg-white text-primary border border-primary py-2 md:py-4 px-5 md:px-10 rounded-full font-semibold text-sm md:text-lg tracking-wider cursor-pointer hover:bg-primary hover:text-white duration-300 uppercase">
               Explore Now
             </button>

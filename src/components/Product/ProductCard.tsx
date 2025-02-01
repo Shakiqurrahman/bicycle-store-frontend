@@ -1,7 +1,8 @@
 import { BsCart4 } from "react-icons/bs";
 import { FaCircleCheck } from "react-icons/fa6";
 import { HiViewfinderCircle } from "react-icons/hi2";
-import { TProductData } from "../Redux/features/cart/cartSlice";
+import { TProductData } from "../../Redux/features/cart/cartSlice";
+import bicle from "../../assets/images/hero4.jpg";
 
 const ProductCard = ({ product }: { product: TProductData }) => {
   // console.log(product);
@@ -9,8 +10,8 @@ const ProductCard = ({ product }: { product: TProductData }) => {
   return (
     <div className="p-4 bg-white rounded-lg shadow">
       <img
-        className="w-full h-[280px] object-cover bg-body mix-blend-multiply"
-        // src={product?.}
+        className="w-full max-h-[280px] object-cover bg-body mix-blend-multiply"
+        src={bicle}
         alt="Image"
       />
       <div className="px-1">
@@ -18,7 +19,7 @@ const ProductCard = ({ product }: { product: TProductData }) => {
           {product?.name}
         </h2>
         <div className="flex items-center justify-between">
-          <p className="text-xl font-bold text-primary">$19.99</p>
+          <p className="text-xl font-bold text-primary">${product.price}</p>
           <p className="flex items-center text-green-400 gap-1 font-semibold text-sm">
             <FaCircleCheck />
             <span>In Stock</span>
@@ -31,11 +32,11 @@ const ProductCard = ({ product }: { product: TProductData }) => {
         </div>
       </div>
       <div className="flex gap-2 mt-4">
-        <button className="cursor-pointer w-full justify-center flex items-center gap-2 font-semibold text-sm bg-body border border-gray-200 hover:bg-primary duration-300 hover:text-white px-5 py-3 rounded-lg">
+        <button className="cursor-pointer w-full justify-center flex items-center gap-2 font-semibold text-xs md:text-sm bg-body border border-gray-200 hover:bg-primary duration-300 hover:text-white px-4 py-3 rounded-lg">
           <BsCart4 className="text-xl" />
           Add To Cart
         </button>
-        <button className="cursor-pointer w-full justify-center flex items-center gap-2 font-semibold text-sm bg-body border border-gray-200 hover:bg-primary duration-300 hover:text-white px-5 py-3 rounded-lg">
+        <button className="cursor-pointer w-full justify-center flex items-center gap-2 font-semibold text-xs md:text-sm bg-body border border-gray-200 hover:bg-primary duration-300 hover:text-white px-4 py-3 rounded-lg">
           <HiViewfinderCircle className="text-xl" />
           View Details
         </button>

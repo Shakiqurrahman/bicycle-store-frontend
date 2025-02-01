@@ -30,7 +30,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-[99] bg-white/50 backdrop-blur-md">
+    <header className="sticky top-0 z-[99] bg-white/90 backdrop-blur-md">
       <div className="max-width ">
         <div className="flex justify-between items-center py-4">
           <Link to={"/"} className="flex gap-2 items-center">
@@ -51,10 +51,10 @@ const Header = () => {
               </li>
               <li>
                 <NavLink
-                  to={"/products"}
+                  to={"/shop"}
                   className="text-sm font-semibold text-gray-700 hover:text-primary duration-300"
                 >
-                  Products
+                  Shop
                 </NavLink>
               </li>
               <li>
