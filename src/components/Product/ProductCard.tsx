@@ -18,6 +18,7 @@ const ProductCard = ({ product }: { product: TProductData }) => {
         <h2 className="mt-2 mb-1 text-xl font-semibold line-clamp-2">
           {product?.name}
         </h2>
+        <p className="text-base font-medium">Brand : {product.brand}</p>
         <div className="flex items-center justify-between">
           <p className="text-xl font-bold text-primary">${product.price}</p>
           <p className="flex items-center text-green-400 gap-1 font-semibold text-sm">
