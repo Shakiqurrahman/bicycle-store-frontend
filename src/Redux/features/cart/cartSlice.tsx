@@ -1,4 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
+import { RootState } from "../../store";
+
+export type TCartItem = TProductData & {
+  buyingQuantity: number;
+};
 
 export type TProductData = {
   _id: string;
@@ -15,7 +21,7 @@ export type TProductData = {
 
 type CartState = {
   showCartDrawer: boolean;
-  cartItems: TProductData[];
+  cartItems: TCartItem[];
 };
 
 const initialState: CartState = {
@@ -32,14 +38,57 @@ const cartSlice = createSlice({
     },
 
     addToCart: (state, action: PayloadAction<TProductData>) => {
+      const { _id, quantity } = action.payload;
+
+      if (quantity > 0) {
+        const existingItem = state.cartItems.find((item) => item._id === _id);
+
+        if (existingItem) {
+          if (existingItem.buyingQuantity < quantity) {
+            existingItem.buyingQuantity += 1;
+            toast.success("Item added to cart!");
+          } else {
+            toast.error("No more stock available!");
+          }
+        } else {
+          state.cartItems.push({
+            ...action.payload,
+            buyingQuantity: 1,
+          });
+          toast.success("Item added to cart!");
+        }
+      } else {
+        toast.error(
+          "This item is out of stock. Check similar products or try again later."
+        );
+      }
+    },
+
+    incrementQuantity: (state, action: PayloadAction<string>) => {
       const existingItem = state.cartItems.find(
-        (item) => item._id === action.payload._id
+        (item) => item._id === action.payload
       );
 
       if (existingItem) {
-        existingItem.quantity += action.payload.quantity;
-      } else {
-        state.cartItems.push(action.payload);
+        if (existingItem.buyingQuantity < existingItem.quantity) {
+          existingItem.buyingQuantity += 1;
+        } else {
+          toast.error("No more stock available!");
+        }
+      }
+    },
+
+    decrementQuantity: (state, action: PayloadAction<string>) => {
+      const existingItem = state.cartItems.find(
+        (item) => item._id === action.payload
+      );
+
+      if (existingItem) {
+        if (existingItem.buyingQuantity > 1) {
+          existingItem.buyingQuantity -= 1;
+        } else {
+          toast.error("You cannot reduce below 1. Remove item instead.");
+        }
       }
     },
 
@@ -47,10 +96,21 @@ const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter(
         (item) => item._id !== action.payload
       );
+      toast.success("Item removed from cart!");
     },
   },
 });
 
-export const { toggleCartDrawer, addToCart, removeFromCart } =
-  cartSlice.actions;
+export const {
+  toggleCartDrawer,
+  addToCart,
+  removeFromCart,
+  incrementQuantity,
+  decrementQuantity,
+} = cartSlice.actions;
 export default cartSlice.reducer;
+
+export const selectTotalItems = createSelector(
+  (state: RootState) => state.cart.cartItems,
+  (cartItems) => cartItems.length
+);

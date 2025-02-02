@@ -14,18 +14,25 @@ import { baseApi } from "./api/baseApi";
 import authReducer from "./features/auth/authSlice";
 import cartReducer from "./features/cart/cartSlice";
 
-const persistConfig = {
-  key: "auth",
+const createPersistConfig = (key: string) => ({
+  key,
   storage,
-};
+});
 
-const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+const persistedAuthReducer = persistReducer(
+  createPersistConfig("auth"),
+  authReducer
+);
+const persistedCartReducer = persistReducer(
+  createPersistConfig("cart"),
+  cartReducer
+);
 
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer,
-    cart: cartReducer,
+    cart: persistedCartReducer,
   },
 
   middleware: (getDefaultMiddlewares) =>

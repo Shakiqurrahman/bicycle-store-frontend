@@ -10,7 +10,10 @@ import {
   selectCurrentUser,
   useCurrentToken,
 } from "../../Redux/features/auth/authSlice";
-import { toggleCartDrawer } from "../../Redux/features/cart/cartSlice";
+import {
+  selectTotalItems,
+  toggleCartDrawer,
+} from "../../Redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hook";
 import CartDrawer from "../CartDrawer";
 import DropdownProfile from "./DropdownProfile";
@@ -22,6 +25,8 @@ const Header = () => {
   const token = useAppSelector(useCurrentToken);
   const [openProfile, setOpenProfile] = useState(false);
   const dispatch = useAppDispatch();
+
+  const totalItems = useAppSelector(selectTotalItems);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -100,12 +105,18 @@ const Header = () => {
             <div className="flex gap-4 md:gap-8 items-center">
               <div className="flex items-center gap-2 md:gap-4 ">
                 <IoHeartOutline className="size-6 text-gray-700 cursor-pointer hover:text-primary duration-300 hidden sm:block" />
-                <button type="button" className="border-none outline-none">
-                  <BsCart4
-                    className="size-[25px] text-gray-700 cursor-pointer hover:text-primary duration-300"
-                    onClick={() => dispatch(toggleCartDrawer())}
-                  />
-                </button>
+
+                <div
+                  className="relative"
+                  onClick={() => dispatch(toggleCartDrawer())}
+                >
+                  <button type="button" className="border-none outline-none">
+                    <BsCart4 className="size-[25px] text-gray-700 cursor-pointer hover:text-primary duration-300" />
+                  </button>
+                  <span className="w-6 rounded-full flex justify-center items-center bg-primary px-1.5 py-1 text-xs absolute -top-3 -right-3 text-white">
+                    {totalItems}
+                  </span>
+                </div>
               </div>
               {token ? (
                 <div className="relative" ref={profileRef}>

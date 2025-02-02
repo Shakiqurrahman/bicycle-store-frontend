@@ -4,12 +4,12 @@ import { useGetAllProductsQuery } from "../Redux/features/product/productApi";
 import ProductCard from "./Product/ProductCard";
 
 const FeaturedProducts = () => {
-  const { data } = useGetAllProductsQuery(null);
-
+  const { data, isLoading } = useGetAllProductsQuery(null);
   return (
     <section className="max-width mt-24">
       <h1 className="text-3xl font-bold"># Featured Products</h1>
       <div className="grid gap-12 sm:grid-cols-2 md:grid-cols-3 mt-10">
+        {isLoading && <p>Loading...</p>}
         {data?.data?.slice(-6).map((product: TProductData, idx: number) => (
           <ProductCard key={idx} product={product} />
         ))}
