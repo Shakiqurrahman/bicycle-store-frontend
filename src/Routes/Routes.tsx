@@ -6,6 +6,7 @@ import CartPage from "../Pages/CartPage";
 import ContactUs from "../Pages/ContactUs";
 import ErrorPage from "../Pages/ErrorPage";
 import HomePage from "../Pages/HomePage";
+import OrderPage from "../Pages/OrderPage";
 import ProductPage from "../Pages/ProductPage";
 import ProfilePage from "../Pages/ProfilePage";
 import SignInPage from "../Pages/SignInPage";
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: "/wish-list",
         element: <WishList />,
+      },
+      {
+        path: "/orders",
+        element: <OrderPage />,
       },
       {
         path: "/about",
