@@ -24,6 +24,26 @@ body {
   @apply text-primary;
 }
 
+/* Customize Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b22945; /* Thumb color */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8e1c36; /* Darker color on hover */
+}
+
 /* Change inactive & active dot color */
 .ant-carousel .slick-dots li button,
 .ant-carousel .slick-dots li.slick-active button {

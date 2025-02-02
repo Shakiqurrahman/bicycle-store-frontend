@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { BsCart4 } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { IoHeartOutline } from "react-icons/io5";
+import { IoHeart } from "react-icons/io5";
 import { MdClose } from "react-icons/md";
 import { Link, NavLink } from "react-router";
 import logo from "../../assets/images/bicycle logo - Copy.png";
@@ -104,7 +104,12 @@ const Header = () => {
           <div className="flex gap-4 items-center">
             <div className="flex gap-4 md:gap-8 items-center">
               <div className="flex items-center gap-2 md:gap-4 ">
-                <IoHeartOutline className="size-6 text-gray-700 cursor-pointer hover:text-primary duration-300 hidden sm:block" />
+                <NavLink
+                  to={"/wish-list"}
+                  className="hover:text-primary text-gray-700 duration-300"
+                >
+                  <IoHeart className="size-6 hidden sm:block" />
+                </NavLink>
 
                 <div
                   className="relative"

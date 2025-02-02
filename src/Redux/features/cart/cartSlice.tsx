@@ -98,6 +98,11 @@ const cartSlice = createSlice({
       );
       toast.success("Item removed from cart!");
     },
+
+    clearCart: (state) => {
+      state.cartItems = [];
+      toast.success("Cart cleared!");
+    },
   },
 });
 
@@ -107,10 +112,21 @@ export const {
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
+  clearCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;
 
 export const selectTotalItems = createSelector(
   (state: RootState) => state.cart.cartItems,
   (cartItems) => cartItems.length
+);
+
+export const selectGrandTotal = createSelector(
+  (state: RootState) => state.cart.cartItems,
+  (cartItems) =>
+    cartItems.reduce(
+      (total: number, item: TCartItem) =>
+        total + item.price * item.buyingQuantity,
+      0
+    )
 );
