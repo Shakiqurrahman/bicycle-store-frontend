@@ -101,3 +101,7 @@ body {
 .ant-slider-handle::after {
   display: none;
 }
+
+button {
+  @apply cursor-pointer;
+}

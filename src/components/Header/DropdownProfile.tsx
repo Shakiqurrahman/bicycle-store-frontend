@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router";
 import { useLogoutMutation } from "../../Redux/features/auth/authApi";
 import { logout } from "../../Redux/features/auth/authSlice";
 import { useAppDispatch } from "../../Redux/hook";
+import { useIsAdmin } from "../../utils/useIsAdmin";
 
 type DropdownProfileProps = {
   close: () => void;
@@ -13,6 +14,8 @@ const DropdownProfile = ({ close }: DropdownProfileProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [logoutUser] = useLogoutMutation();
+
+  const isAdmin = useIsAdmin();
 
   const handleLogout = async () => {
     close();
@@ -31,14 +34,25 @@ const DropdownProfile = ({ close }: DropdownProfileProps) => {
         <LuUser className="text-lg" />
         View Profile
       </Link>
-      <Link
-        to="/orders"
-        onClick={close}
-        className="flex gap-2 items-center px-4 py-2 hover:bg-body duration-300"
-      >
-        <MdViewCompact className="text-lg" />
-        View Orders
-      </Link>
+      {isAdmin ? (
+        <Link
+          to="/dashboard"
+          onClick={close}
+          className="flex gap-2 items-center px-4 py-2 hover:bg-body duration-300"
+        >
+          <MdViewCompact className="text-lg" />
+          Dashboard
+        </Link>
+      ) : (
+        <Link
+          to="/orders"
+          onClick={close}
+          className="flex gap-2 items-center px-4 py-2 hover:bg-body duration-300"
+        >
+          <MdViewCompact className="text-lg" />
+          View Orders
+        </Link>
+      )}
       <button
         onClick={handleLogout}
         className="cursor-pointer px-4 py-2 flex items-center gap-2 w-full text-left hover:bg-body duration-300"

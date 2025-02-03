@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }: TProtectedRoute) => {
 
   useEffect(() => {
     if (!token) {
-      // dispatch(logout());
+      dispatch(logout());
       navigate("/sign-in", { state: { from: location }, replace: true });
       return;
     }

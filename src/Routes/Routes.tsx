@@ -1,4 +1,6 @@
 import { createBrowserRouter } from "react-router";
+import AdminRoutes from "../Layouts/AdminRoutes";
+import DashboardLayout from "../Layouts/DashboardLayout";
 import ProtectedRoute from "../Layouts/ProtectedRoute";
 import PublicLayout from "../Layouts/PublicLayout";
 import AboutPage from "../Pages/AboutPage";
@@ -12,6 +14,7 @@ import ProfilePage from "../Pages/ProfilePage";
 import SignInPage from "../Pages/SignInPage";
 import SignUpPage from "../Pages/SignUpPage";
 import WishList from "../Pages/WishList";
+import { adminPaths } from "./AdminPaths";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +58,15 @@ export const router = createBrowserRouter([
         element: <ContactUs />,
       },
     ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <AdminRoutes>
+        <DashboardLayout />
+      </AdminRoutes>
+    ),
+    children: adminPaths,
   },
   {
     path: "/sign-in",

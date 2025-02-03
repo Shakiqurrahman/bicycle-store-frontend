@@ -1,33 +1,25 @@
 import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router";
-import {
-  selectCurrentUser,
-  TUser,
-  useCurrentToken,
-} from "../Redux/features/auth/authSlice";
+import { TUser, useCurrentToken } from "../Redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../Redux/hook";
 import { verifyToken } from "../utils/verifyToken";
 
 type TProtectedRoute = {
   children: ReactNode;
 };
-const IsAdmin = ({ children }: TProtectedRoute) => {
+const AdminRoutes = ({ children }: TProtectedRoute) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const token = useAppSelector(useCurrentToken);
-  const user = useAppSelector(selectCurrentUser);
 
   let jwtPayload;
-
   if (token) {
     jwtPayload = verifyToken(token);
   }
-  const isAdmin =
-    (jwtPayload as TUser)?.role === "admin" && user?.role === "admin";
+  const isAdmin = (jwtPayload as TUser)?.role === "admin";
 
   useEffect(() => {
-    if (!token || !isAdmin) {
+    if (!token) {
       navigate("/");
       return;
     }
@@ -36,4 +28,4 @@ const IsAdmin = ({ children }: TProtectedRoute) => {
   return children;
 };
 
-export default IsAdmin;
+export default AdminRoutes;
