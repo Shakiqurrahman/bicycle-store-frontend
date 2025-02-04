@@ -8,10 +8,11 @@ export type TCartItem = TProductData & {
 
 export type TProductData = {
   _id: string;
-  type: string;
+  category: string;
   name: string;
   brand: string;
   price: number;
+  imageUrl: string;
   quantity: number;
   description: string;
   inStock: boolean;

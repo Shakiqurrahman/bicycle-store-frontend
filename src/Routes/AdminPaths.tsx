@@ -2,20 +2,25 @@ import { FiHome } from "react-icons/fi";
 import { IoAdd } from "react-icons/io5";
 import { LuChartLine } from "react-icons/lu";
 import { PiBicycleLight, PiUsersFourLight } from "react-icons/pi";
+import AddBicycle from "../Pages/Dashboard/AddBicycle";
+import BycycleManagement from "../Pages/Dashboard/BycycleManagement";
+import Dashboard from "../Pages/Dashboard/Dashboard";
+import EditBycle from "../Pages/Dashboard/EditBycle";
 import ManageUsers from "../Pages/Dashboard/ManageUsers";
+import OrderManagement from "../Pages/Dashboard/OrderManagement";
 
 export const adminPathsData = [
   {
     icon: FiHome,
     name: "Dashboard",
     path: "",
-    element: `<div> Hello brother</div>`,
+    element: <Dashboard />,
   },
   {
     icon: LuChartLine,
     name: "Order Management",
     path: "order-management",
-    element: `<div> Hello brother</div>`,
+    element: <OrderManagement />,
   },
   {
     icon: PiUsersFourLight,
@@ -27,13 +32,17 @@ export const adminPathsData = [
     icon: PiBicycleLight,
     name: "Bicycle Management",
     path: "bicycle-management",
-    element: `<div> Hello brother</div>`,
+    element: <BycycleManagement />,
   },
   {
     icon: IoAdd,
     name: "Add Bicycle",
     path: "add-bicycle",
-    element: `<div> Hello brother</div>`,
+    element: <AddBicycle />,
+  },
+  {
+    path: "bicycle-management/:id",
+    element: <EditBycle />,
   },
 ];
 
@@ -44,10 +53,12 @@ export const adminPaths = adminPathsData.map((data) => {
   };
 });
 
-export const dashboardLinks = adminPathsData.map((data) => {
-  return {
-    path: data.path,
-    icon: data.icon,
-    name: data.name,
-  };
-});
+export const dashboardLinks = adminPathsData
+  .filter((d) => d.name)
+  .map((data) => {
+    return {
+      path: data.path,
+      icon: data.icon,
+      name: data.name,
+    };
+  });

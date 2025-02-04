@@ -74,7 +74,7 @@ const ProfilePage = () => {
         })
       );
     }
-  }, [data]);
+  }, [data?.data, token, dispatch]);
 
   // Track changes to enable/disable the Update button
   useEffect(() => {

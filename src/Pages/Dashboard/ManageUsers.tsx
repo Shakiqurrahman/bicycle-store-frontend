@@ -38,7 +38,7 @@ const ManageUsers = () => {
     </div>
   ) : (
     <section className="mt-2">
-      <div className="bg-white rounded-lg shadow-sm buser buser-gray-200 overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="px-6 py-4 buser-b buser-gray-200">
           <h2 className="text-lg font-semibold">Manage Users</h2>
         </div>

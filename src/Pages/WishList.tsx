@@ -2,7 +2,6 @@ import { BsCart4 } from "react-icons/bs";
 import { GoHeart } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from "react-router";
-import bicle from "../assets/images/hero4.jpg";
 import { addToCart } from "../Redux/features/cart/cartSlice";
 import { removeFromWishList } from "../Redux/features/wishList/wishListSlice";
 import { useAppDispatch, useAppSelector } from "../Redux/hook";
@@ -53,7 +52,7 @@ const WishList = () => {
                       <RiDeleteBin6Line />
                     </button>
                     <img
-                      src={bicle}
+                      src={product.imageUrl}
                       alt={product.name}
                       className="w-32 max-h-28 bg-cover rounded-lg shrink-0"
                     />

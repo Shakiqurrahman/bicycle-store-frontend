@@ -21,7 +21,6 @@ const ChangePassword = () => {
   });
 
   const onSubmit = async (data: FormData) => {
-    console.log(data);
     try {
       await passwordChangeHandler({
         oldPassword: data.currentPassword,

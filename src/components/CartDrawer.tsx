@@ -2,7 +2,6 @@ import { Drawer } from "antd";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from "react-router";
-import bicle from "../assets/images/hero4.jpg";
 import {
   decrementQuantity,
   incrementQuantity,
@@ -68,7 +67,7 @@ const CartDrawer = () => {
               >
                 <div className="flex flex-row items-center gap-3 flex-1">
                   <img
-                    src={bicle}
+                    src={product.imageUrl}
                     alt={product.name}
                     className="w-16 max-h-16 rounded-sm"
                   />

@@ -4,7 +4,6 @@ import { BsCart4 } from "react-icons/bs";
 import { FaCircleCheck } from "react-icons/fa6";
 import { HiViewfinderCircle } from "react-icons/hi2";
 import { IoHeart } from "react-icons/io5";
-import bicle from "../../assets/images/hero4.jpg";
 import { addToCart, TProductData } from "../../Redux/features/cart/cartSlice";
 import { addToWishList } from "../../Redux/features/wishList/wishListSlice";
 import { useAppDispatch } from "../../Redux/hook";
@@ -22,7 +21,7 @@ const ProductCard = ({ product }: { product: TProductData }) => {
     <div className="p-4 bg-white rounded-lg shadow group relative">
       <img
         className="w-full max-h-[280px] object-cover bg-body mix-blend-multiply"
-        src={bicle}
+        src={product.imageUrl}
         alt="Image"
       />
       <div className="px-1">

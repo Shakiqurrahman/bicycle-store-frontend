@@ -10,7 +10,6 @@ import {
   TCartItem,
 } from "../Redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "../Redux/hook";
-import bicle from "../assets/images/hero4.jpg";
 
 const CartPage = () => {
   const totalItems = useAppSelector(selectTotalItems);
@@ -52,7 +51,7 @@ const CartPage = () => {
                     >
                       <div className="flex-1 flex items-center gap-5">
                         <img
-                          src={bicle}
+                          src={product.imageUrl}
                           alt={product.name}
                           className="w-40 max-h-32 bg-cover rounded-lg shrink-0"
                         />
