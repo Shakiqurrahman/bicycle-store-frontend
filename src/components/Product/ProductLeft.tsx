@@ -1,40 +1,34 @@
 import { Input, Slider } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
+import {
+  makePriceFilter,
+  resetPriceFilter,
+  setPriceRange,
+  setSearchTerm,
+  setSelectedCategory,
+  setSelectedStock,
+  StockStatus,
+} from "../../Redux/features/product/productSlice";
+import { useAppDispatch, useAppSelector } from "../../Redux/hook";
 import { categories } from "../../utils/categories";
 
 const { Search } = Input;
-// type SearchProps = GetProps<typeof Input.Search>;
-type StockStatus = "inStock" | "lowStock" | "outOfStock";
-type TCategory = (typeof categories)[number]["name"];
 
 const ProductLeft = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<TCategory | null>(
-    null
-  );
-  const [priceRange, setPriceRange] = useState([50, 200]);
-  const [selectedStock, setSelectedStock] = useState<StockStatus | null>(null);
+  const dispatch = useAppDispatch();
+  const [searchValue, setSearchValue] = useState("");
+
+  const { selectedCategory, selectedStock, isPriceFilter, priceRange } =
+    useAppSelector((state) => state.product);
 
   const onSearch = (value: string) => {
-    console.log("Search term:", value);
-  };
-  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-  const handleSliderChange = (value: Array<number>) => {
-    setPriceRange(value);
-  };
-
-  const handleCategory = (option: TCategory | null) => {
-    setSelectedCategory((prev) => (prev === option ? null : option));
-  };
-  const handleCheckboxChange = (option: StockStatus | null) => {
-    setSelectedStock((prev) => (prev === option ? null : option));
+    dispatch(setSearchTerm(value));
   };
 
   return (
     <div className="w-full">
       <div className="bg-white p-5 rounded-lg">
+        {/* Search */}
         <div className="mb-5">
           <h2 className="text-xl text-blackish font-semibold pb-3 mb-4 border-b border-gray-200">
             Search
@@ -42,15 +36,16 @@ const ProductLeft = () => {
           <Search
             className="custom-search"
             placeholder="Search by brand, bicycle name or category"
-            onSearch={onSearch}
             size="large"
             enterButton
             allowClear
-            value={searchTerm}
-            onChange={onSearchChange}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onSearch={onSearch}
           />
         </div>
 
+        {/* Categories */}
         <div className="mb-5">
           <h2 className="text-xl font-semibold pb-3 mb-4 border-b border-gray-200">
             Categories
@@ -58,7 +53,7 @@ const ProductLeft = () => {
           <ul className="pl-5 space-y-1">
             {categories.map((c) => (
               <li
-                onClick={() => handleCategory(c.name)}
+                onClick={() => dispatch(setSelectedCategory(c.name))}
                 className={`list-disc hover:text-primary duration-300 cursor-pointer ${
                   selectedCategory === c.name ? "text-primary" : ""
                 }`}
@@ -70,66 +65,71 @@ const ProductLeft = () => {
           </ul>
         </div>
 
+        {/* Price Filter */}
         <div className="mb-5">
           <h2 className="text-xl text-blackish font-semibold pb-3 mb-4 border-b border-gray-200">
             Filter by price
           </h2>
           <Slider
             range
-            defaultValue={[50, 200]}
+            defaultValue={priceRange}
             min={0}
             max={500}
-            onChange={handleSliderChange}
+            onChange={(value) => dispatch(setPriceRange(value as [number, number]))}
             tooltip={{ formatter: (value) => `$${value}` }}
           />
-          <div className="mt-5 text-gray-700 font-medium flex items-center gap-2 justify-between">
+          <div className="mt-5 text-gray-700 font-medium flex flex-wrap items-center gap-2 justify-between">
             <p>
               Price : ${priceRange[0]} - ${priceRange[1]}
             </p>
-            <button className="bg-primary hover:bg-primary/85 text-white font-medium py-2.5 px-8 rounded-lg duration-300 cursor-pointer select-none tracking-wide">
-              Filter
-            </button>
+            <div className="space-x-3">
+              <button
+                type="button"
+                onClick={() => dispatch(resetPriceFilter())}
+                className={`bg-white border border-primary/85 text-primary font-medium py-2 px-6 rounded-lg duration-300 cursor-pointer select-none tracking-wide ${
+                  !isPriceFilter ? "opacity-0" : "opacity-100"
+                }`}
+              >
+                Reset
+              </button>
+              <button
+                type="button"
+                onClick={() => dispatch(makePriceFilter())}
+                className="bg-primary hover:bg-primary/85 text-white font-medium py-2.5 px-6 rounded-lg duration-300 cursor-pointer select-none tracking-wide "
+              >
+                Filter
+              </button>
+            </div>
           </div>
         </div>
 
+        {/* Stock */}
         <div>
           <h2 className="text-xl font-semibold pb-3 mb-4 border-b border-gray-200">
             Stock
           </h2>
           <div className="space-y-2">
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="accent-primary size-4"
-                checked={selectedStock === "inStock"}
-                onChange={() => handleCheckboxChange("inStock")}
-              />
-              <span className="text-gray-700 font-medium select-none">
-                In stock
-              </span>
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="accent-primary size-4"
-                checked={selectedStock === "lowStock"}
-                onChange={() => handleCheckboxChange("lowStock")}
-              />
-              <span className="text-gray-700 font-medium select-none">
-                Low stock
-              </span>
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="accent-primary size-4"
-                checked={selectedStock === "outOfStock"}
-                onChange={() => handleCheckboxChange("outOfStock")}
-              />
-              <span className="text-gray-700 font-medium select-none">
-                Out of stock
-              </span>
-            </label>
+            {["inStock", "lowStock", "outOfStock"].map((status) => (
+              <label key={status} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="accent-primary size-4"
+                  checked={selectedStock === status}
+                  onChange={() =>
+                    dispatch(
+                      setSelectedStock(
+                        selectedStock === status
+                          ? null
+                          : (status as StockStatus)
+                      )
+                    )
+                  }
+                />
+                <span className="text-gray-700 font-medium select-none">
+                  {status.replace(/([A-Z])/g, " $1")}
+                </span>
+              </label>
+            ))}
           </div>
         </div>
       </div>

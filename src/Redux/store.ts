@@ -14,6 +14,7 @@ import { baseApi } from "./api/baseApi";
 import authReducer from "./features/auth/authSlice";
 import cartReducer from "./features/cart/cartSlice";
 import orderReducer from "./features/orders/ordersSlice";
+import productReducer from "./features/product/productSlice";
 import wishListReducer from "./features/wishList/wishListSlice";
 
 const createPersistConfig = (key: string) => ({
@@ -41,6 +42,7 @@ export const store = configureStore({
     cart: persistedCartReducer,
     wishList: persistedWishListReducer,
     orders: orderReducer,
+    product: productReducer,
   },
 
   middleware: (getDefaultMiddlewares) =>

@@ -14,6 +14,7 @@ import {
   selectTotalItems,
   toggleCartDrawer,
 } from "../../Redux/features/cart/cartSlice";
+import { selectTotalWishList } from "../../Redux/features/wishList/wishListSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hook";
 import CartDrawer from "../CartDrawer";
 import DropdownProfile from "./DropdownProfile";
@@ -27,6 +28,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
 
   const totalItems = useAppSelector(selectTotalItems);
+  const totalWishList = useAppSelector(selectTotalWishList);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -103,12 +105,19 @@ const Header = () => {
           </nav>
           <div className="flex gap-4 items-center">
             <div className="flex gap-4 md:gap-8 items-center">
-              <div className="flex items-center gap-2 md:gap-4 ">
+              <div className="flex items-center gap-2 md:gap-5 ">
                 <NavLink
                   to={"/wish-list"}
-                  className="hover:text-primary text-gray-700 duration-300"
+                  className="hover:text-primary text-gray-700 duration-300 relative hidden sm:block"
                 >
-                  <IoHeart className="size-6 hidden sm:block" />
+                  <button type="button">
+                    <IoHeart className="size-6" />
+                  </button>
+                  {totalWishList > 0 && (
+                    <span className="w-6 rounded-full flex justify-center items-center bg-primary px-1.5 py-1 text-xs absolute -top-3.5 -right-3.5 text-white">
+                      {totalWishList}
+                    </span>
+                  )}
                 </NavLink>
 
                 <div
@@ -118,7 +127,7 @@ const Header = () => {
                   <button type="button" className="border-none outline-none">
                     <BsCart4 className="size-[25px] text-gray-700 cursor-pointer hover:text-primary duration-300" />
                   </button>
-                  <span className="w-6 rounded-full flex justify-center items-center bg-primary px-1.5 py-1 text-xs absolute -top-3 -right-3 text-white">
+                  <span className="w-6 rounded-full flex justify-center items-center bg-primary px-1.5 py-1 text-xs absolute -top-3.5 -right-3.5 text-white">
                     {totalItems}
                   </span>
                 </div>

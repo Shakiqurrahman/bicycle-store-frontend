@@ -7,6 +7,7 @@ const userApi = baseApi.injectEndpoints({
         url: "/users/me",
         method: "get",
       }),
+      providesTags: ["user"],
     }),
 
     changePassword: builder.mutation({
@@ -15,8 +16,22 @@ const userApi = baseApi.injectEndpoints({
         method: "post",
         body: passwords,
       }),
+      invalidatesTags: ["user"],
+    }),
+
+    updateProfile: builder.mutation({
+      query: (formData) => ({
+        url: "/users/update",
+        method: "PATCH",
+        body: formData,
+      }),
+      invalidatesTags: ["user"],
     }),
   }),
 });
 
-export const { useGetMeQuery, useChangePasswordMutation } = userApi;
+export const {
+  useGetMeQuery,
+  useChangePasswordMutation,
+  useUpdateProfileMutation,
+} = userApi;

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { BsBellFill, BsSearch } from "react-icons/bs";
+import { BsSearch } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Outlet } from "react-router";
 import defaultAvatar from "../assets/images/no-profile-picture.svg";
@@ -55,9 +55,7 @@ const DashboardLayout = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-full hover:bg-gray-100">
-                <BsBellFill className="w-5 h-5 text-gray-500" />
-              </button>
+              <h3 className="text-xs font-semibold">{user?.name}</h3>
               <div className="relative" ref={profileRef}>
                 <img
                   onClick={() => setOpenProfile(!openProfile)}

@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
+import { RootState } from "../../store";
 import { TProductData } from "../cart/cartSlice";
 
 type TWishList = {
@@ -37,3 +38,8 @@ const wishListSlice = createSlice({
 
 export const { addToWishList, removeFromWishList } = wishListSlice.actions;
 export default wishListSlice.reducer;
+
+export const selectTotalWishList = createSelector(
+  (state: RootState) => state.wishList.wishList,
+  (wishList) => wishList.length
+);
