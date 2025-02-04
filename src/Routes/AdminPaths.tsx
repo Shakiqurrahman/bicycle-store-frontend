@@ -40,10 +40,7 @@ export const adminPathsData = [
     path: "add-bicycle",
     element: <AddBicycle />,
   },
-  {
-    path: "bicycle-management/:id",
-    element: <EditBycle />,
-  },
+  { icon: IoAdd, path: "bicycle-management/:id", element: <EditBycle /> },
 ];
 
 export const adminPaths = adminPathsData.map((data) => {
@@ -62,3 +59,5 @@ export const dashboardLinks = adminPathsData
       name: data.name,
     };
   });
+
+console.log(dashboardLinks);
