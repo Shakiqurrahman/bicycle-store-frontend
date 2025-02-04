@@ -20,7 +20,7 @@ const ProductCard = ({ product }: { product: TProductData }) => {
   return (
     <div className="p-4 bg-white rounded-lg shadow group relative">
       <img
-        className="w-full max-h-[280px] object-cover bg-body mix-blend-multiply"
+        className="w-full h-[250px] object-cover bg-body mix-blend-multiply"
         src={product.imageUrl}
         alt="Image"
       />

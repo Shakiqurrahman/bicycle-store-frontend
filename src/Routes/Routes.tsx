@@ -11,6 +11,7 @@ import HomePage from "../Pages/HomePage";
 import OrderPage from "../Pages/OrderPage";
 import ProductPage from "../Pages/ProductPage";
 import ProfilePage from "../Pages/ProfilePage";
+import ReturnPage from "../Pages/ReturnPage";
 import SignInPage from "../Pages/SignInPage";
 import SignUpPage from "../Pages/SignUpPage";
 import WishList from "../Pages/WishList";
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
       {
         path: "/contact",
         element: <ContactUs />,
+      },
+      {
+        path: "/payment-success",
+        element: <ReturnPage />,
       },
     ],
   },

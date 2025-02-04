@@ -13,6 +13,7 @@ type TOrderStatus = keyof typeof OrderStatus;
 export type TOrderData = {
   _id: string;
   product: TProductData;
+  paymentStatus: string;
   quantity: number;
   totalPrice: string;
   status: TOrderStatus;

@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router";
 import { TProductData } from "../../Redux/features/cart/cartSlice";
 import { useUpdateProductMutation } from "../../Redux/features/product/productApi";
 import { categories } from "../../utils/categories";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const EditBycle = () => {
   const navigate = useNavigate();
@@ -237,6 +238,12 @@ const EditBycle = () => {
           Update Bicycle
         </button>
       </form>
+
+      {isCreating && (
+        <div className="fixed bottom-0 left-0 right-0 w-full h-screen bg-black/40 z-[999999] flex justify-center items-center">
+          <AiOutlineLoading3Quarters className="animate-spin text-white text-4xl" />
+        </div>
+      )}
     </section>
   );
 };

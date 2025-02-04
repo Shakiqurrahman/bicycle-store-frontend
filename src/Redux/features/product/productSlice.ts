@@ -26,6 +26,10 @@ const productSlice = createSlice({
       state.searchTerm = action.payload;
     },
     setSelectedCategory: (state, action: PayloadAction<string | null>) => {
+      if (state.selectedCategory === action.payload) {
+        state.selectedCategory = null;
+        return;
+      }
       state.selectedCategory = action.payload;
     },
     setPriceRange: (state, action: PayloadAction<[number, number]>) => {

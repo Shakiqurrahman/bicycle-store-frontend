@@ -2,6 +2,7 @@ import { Input, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useCreateProductMutation } from "../../Redux/features/product/productApi";
 import { categories } from "../../utils/categories";
@@ -242,6 +243,12 @@ const AddBicycle = () => {
           Add Bicycle
         </button>
       </form>
+
+      {isCreating && (
+        <div className="fixed bottom-0 left-0 right-0 w-full h-screen bg-black/40 z-[999999] flex justify-center items-center">
+          <AiOutlineLoading3Quarters className="animate-spin text-white text-4xl" />
+        </div>
+      )}
     </section>
   );
 };

@@ -1,7 +1,9 @@
 import { Drawer } from "antd";
+import toast from "react-hot-toast";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from "react-router";
+import { selectCurrentUser } from "../Redux/features/auth/authSlice";
 import {
   decrementQuantity,
   incrementQuantity,
@@ -10,13 +12,50 @@ import {
   TCartItem,
   toggleCartDrawer,
 } from "../Redux/features/cart/cartSlice";
+import { useCreateOrderMutation } from "../Redux/features/orders/orderApi";
 import { useAppDispatch, useAppSelector } from "../Redux/hook";
 
 const CartDrawer = () => {
   const dispatch = useAppDispatch();
   const { showCartDrawer, cartItems } = useAppSelector((state) => state.cart);
-
+  const user = useAppSelector(selectCurrentUser);
   const grandTotal = useAppSelector(selectGrandTotal);
+
+  const [createOrder] = useCreateOrderMutation();
+
+  const handlePayment = async () => {
+    if (!user) {
+      toast.error("Please Sign In to Proceed");
+      return;
+    }
+    if (user?.role === "admin") {
+      toast.error("Admins are not allowed to place orders.");
+      return;
+    }
+    if (cartItems?.length > 1) {
+      toast.error(
+        "You can only process one order at a time. Please remove other items from the cart."
+      );
+      return;
+    }
+    const payload = {
+      product: cartItems[0]?._id,
+      quantity: cartItems[0]?.buyingQuantity,
+      totalPrice: grandTotal,
+      user: user._id,
+    };
+    const toastId = toast.loading("Placing Order");
+    try {
+      const response = await createOrder(payload).unwrap();
+      if (response?.success) {
+        toast.success("Order Placed", { id: toastId });
+        window.location.href = response?.data;
+      }
+    } catch (error) {
+      toast.error("Something went wrong", { id: toastId });
+      console.error("Error submitting test answers:", error);
+    }
+  };
   return (
     <div>
       <Drawer
@@ -46,6 +85,7 @@ const CartDrawer = () => {
                 </button>
               </Link>
               <button
+                onClick={handlePayment}
                 type="button"
                 disabled={cartItems.length <= 0}
                 className="bg-[#1b8cdc] w-full text-sm tracking-wider rounded-full uppercase font-semibold text-white py-3 disabled:bg-[#1b8cdc]/70 cursor-pointer disabled:cursor-no-drop"

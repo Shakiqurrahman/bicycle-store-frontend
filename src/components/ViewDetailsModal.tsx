@@ -1,9 +1,12 @@
 import { useEffect, useRef } from "react";
+import toast from "react-hot-toast";
 import { BsCart4 } from "react-icons/bs";
 import { IoCard, IoHeart } from "react-icons/io5";
 import { MdClose } from "react-icons/md";
 import bicle from "../assets/images/hero4.jpg";
+import { selectCurrentUser } from "../Redux/features/auth/authSlice";
 import { addToCart, TProductData } from "../Redux/features/cart/cartSlice";
+import { useCreateOrderMutation } from "../Redux/features/orders/orderApi";
 import { addToWishList } from "../Redux/features/wishList/wishListSlice";
 import { useAppDispatch, useAppSelector } from "../Redux/hook";
 
@@ -12,6 +15,7 @@ type TmodalProps = {
   onClose: () => void;
 };
 const ViewDetailsModal = ({ product, onClose }: TmodalProps) => {
+  const user = useAppSelector(selectCurrentUser);
   const modalRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
@@ -35,6 +39,36 @@ const ViewDetailsModal = ({ product, onClose }: TmodalProps) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
+
+  const [createOrder] = useCreateOrderMutation();
+
+  const handlePayment = async () => {
+    if (!user) {
+      toast.error("Please Sign In to Proceed");
+      return;
+    }
+    if (user?.role === "admin") {
+      toast.error("Admins are not allowed to place orders.");
+      return;
+    }
+    const payload = {
+      product: product?._id,
+      quantity: 1,
+      totalPrice: product?.price,
+      user: user._id,
+    };
+    const toastId = toast.loading("Placing Order");
+    try {
+      const response = await createOrder(payload).unwrap();
+      if (response?.success) {
+        toast.success("Order Placed", { id: toastId });
+        window.location.href = response?.data;
+      }
+    } catch (error) {
+      toast.error("Something went wrong", { id: toastId });
+      console.error("Error submitting test answers:", error);
+    }
+  };
   return (
     <div className="fixed left-0 top-0 z-[999] flex h-screen w-full items-center justify-center bg-black/30 p-4 backdrop-blur-[4px]">
       <div
@@ -79,7 +113,8 @@ const ViewDetailsModal = ({ product, onClose }: TmodalProps) => {
               Add to Cart
             </button>
             <button
-              onClick={onClose}
+              onClick={handlePayment}
+              type="button"
               className="w-full py-3 text-white font-semibold rounded-lg duration-300 bg-primary hover:bg-primary/80 flex items-center justify-center gap-2 cursor-pointer"
             >
               <IoCard />

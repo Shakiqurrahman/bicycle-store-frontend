@@ -30,7 +30,7 @@ const ProductPage = () => {
     return (
       (!searchTerm ||
         product.name.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (!selectedCategory || product.type === selectedCategory) &&
+      (!selectedCategory || product.category === selectedCategory) &&
       (isPriceFilter
         ? product.price >= priceRange[0] && product.price <= priceRange[1]
         : true) &&

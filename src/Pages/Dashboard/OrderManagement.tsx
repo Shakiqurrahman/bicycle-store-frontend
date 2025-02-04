@@ -108,13 +108,13 @@ const OrderManagement = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div
                         className={`border   ${
-                          order.status === "Pending"
+                          order.paymentStatus === "Pending"
                             ? "text-rose-600 border-rose-600 bg-[#ffeded]"
                             : "text-[#09cc57] border-[#09cc57] bg-[#edfff4]"
                         } inline-flex items-center px-2 py-0.5 rounded-[10px] text-sm gap-0.5`}
                       >
                         <GoDotFill className="text-xs" />
-                        <span>{order.status}</span>
+                        <span>{order.paymentStatus}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -134,6 +134,7 @@ const OrderManagement = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Select
+                        disabled={order.status === "Cancelled"}
                         defaultValue={order.status || "Pending"}
                         style={{ width: 120 }}
                         onChange={(value) => handleChange(value, order?._id)}
@@ -149,7 +150,9 @@ const OrderManagement = () => {
                   </tr>
                 ))
               ) : (
-                <p className="px-6 py-4 w-full">No orders found!</p>
+                <tr>
+                  <td className="px-6 py-4">No orders found!</td>
+                </tr>
               )}
             </tbody>
           </table>

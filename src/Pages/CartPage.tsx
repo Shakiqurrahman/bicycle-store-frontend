@@ -1,5 +1,7 @@
+import toast from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiMinus, FiPlus } from "react-icons/fi";
+import { selectCurrentUser } from "../Redux/features/auth/authSlice";
 import {
   clearCart,
   decrementQuantity,
@@ -9,13 +11,51 @@ import {
   selectTotalItems,
   TCartItem,
 } from "../Redux/features/cart/cartSlice";
+import { useCreateOrderMutation } from "../Redux/features/orders/orderApi";
 import { useAppDispatch, useAppSelector } from "../Redux/hook";
 
 const CartPage = () => {
+  const user = useAppSelector(selectCurrentUser);
   const totalItems = useAppSelector(selectTotalItems);
   const grandTotal = useAppSelector(selectGrandTotal);
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cart);
+
+  const [createOrder] = useCreateOrderMutation();
+
+  const handlePayment = async () => {
+    if (!user) {
+      toast.error("Please Sign In to Proceed");
+      return;
+    }
+    if (user?.role === "admin") {
+      toast.error("Admins are not allowed to place orders.");
+      return;
+    }
+    if (cartItems?.length > 1) {
+      toast.error(
+        "You can only process one order at a time. Please remove other items from the cart."
+      );
+      return;
+    }
+    const payload = {
+      product: cartItems[0]?._id,
+      quantity: cartItems[0]?.buyingQuantity,
+      totalPrice: grandTotal,
+      user: user._id,
+    };
+    const toastId = toast.loading("Placing Order");
+    try {
+      const response = await createOrder(payload).unwrap();
+      if (response?.success) {
+        toast.success("Order Placed", { id: toastId });
+        window.location.href = response?.data;
+      }
+    } catch (error) {
+      toast.error("Something went wrong", { id: toastId });
+      console.error("Error submitting test answers:", error);
+    }
+  };
   return (
     <section className="mt-10 max-width">
       <div className="bg-white p-8 rounded-lg shadow-sm">
@@ -44,75 +84,69 @@ const CartPage = () => {
             <div className="mt-3 space-y-6 border-t border-gray-200 pt-6 ">
               {cartItems?.length > 0 ? (
                 cartItems?.map((product: TCartItem, idx: number) => (
-                  <>
-                    <div
-                      key={idx}
-                      className="flex items-center gap-1 w-full min-w-[850px]"
-                    >
-                      <div className="flex-1 flex items-center gap-5">
-                        <img
-                          src={product.imageUrl}
-                          alt={product.name}
-                          className="w-40 max-h-32 bg-cover rounded-lg shrink-0"
-                        />
-                        <div>
-                          <p className="text-xs tracking-wider text-gray-500 uppercase">
-                            {product.brand}
-                          </p>
-                          <h3 className="text-xl font-semibold mb-1">
-                            {product.name}
-                          </h3>
-                          <p className="text-sm text-primary font-medium">
-                            Price: ${product.price}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="w-[115px] flex justify-center items-center gap-4">
-                        <button
-                          onClick={() =>
-                            dispatch(decrementQuantity(product._id))
-                          }
-                          type="button"
-                          className={`text-base font-semibold py-1.5 px-2 border rounded-sm border-gray-400 cursor-pointer shadow duration-300 ${
-                            product.buyingQuantity <= 1 ? "opacity-40" : ""
-                          }`}
-                        >
-                          <FiMinus />
-                        </button>
-                        <span className="text-lg font-semibold">
-                          {product.buyingQuantity}
-                        </span>
-                        <button
-                          onClick={() =>
-                            dispatch(incrementQuantity(product._id))
-                          }
-                          type="button"
-                          className={`text-base font-semibold py-1.5 px-2 border rounded-sm border-gray-400 cursor-pointer shadow duration-300 ${
-                            product.buyingQuantity === product.quantity
-                              ? "opacity-40"
-                              : ""
-                          }`}
-                        >
-                          <FiPlus />
-                        </button>
-                      </div>
-                      <div className="w-[250px] text-center">
-                        <h3 className="text-xl font-bold text-blackish">
-                          ${(product.price * product.buyingQuantity).toFixed(2)}
+                  <div
+                    key={idx}
+                    className="flex items-center gap-1 w-full min-w-[850px]"
+                  >
+                    <div className="flex-1 flex items-center gap-5">
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className="w-40 max-h-32 bg-cover rounded-lg shrink-0"
+                      />
+                      <div>
+                        <p className="text-xs tracking-wider text-gray-500 uppercase">
+                          {product.brand}
+                        </p>
+                        <h3 className="text-xl font-semibold mb-1">
+                          {product.name}
                         </h3>
-                      </div>
-                      <div className="w-[115px] flex justify-center">
-                        <button
-                          onClick={() => dispatch(removeFromCart(product._id))}
-                          type="button"
-                          className="text-sm flex items-center gap-2 border border-primary px-4 py-1.5 rounded-full text-primary duration-300 cursor-pointer"
-                        >
-                          Remove
-                          <AiOutlineClose />
-                        </button>
+                        <p className="text-sm text-primary font-medium">
+                          Price: ${product.price}
+                        </p>
                       </div>
                     </div>
-                  </>
+                    <div className="w-[115px] flex justify-center items-center gap-4">
+                      <button
+                        onClick={() => dispatch(decrementQuantity(product._id))}
+                        type="button"
+                        className={`text-base font-semibold py-1.5 px-2 border rounded-sm border-gray-400 cursor-pointer shadow duration-300 ${
+                          product.buyingQuantity <= 1 ? "opacity-40" : ""
+                        }`}
+                      >
+                        <FiMinus />
+                      </button>
+                      <span className="text-lg font-semibold">
+                        {product.buyingQuantity}
+                      </span>
+                      <button
+                        onClick={() => dispatch(incrementQuantity(product._id))}
+                        type="button"
+                        className={`text-base font-semibold py-1.5 px-2 border rounded-sm border-gray-400 cursor-pointer shadow duration-300 ${
+                          product.buyingQuantity === product.quantity
+                            ? "opacity-40"
+                            : ""
+                        }`}
+                      >
+                        <FiPlus />
+                      </button>
+                    </div>
+                    <div className="w-[250px] text-center">
+                      <h3 className="text-xl font-bold text-blackish">
+                        ${(product.price * product.buyingQuantity).toFixed(2)}
+                      </h3>
+                    </div>
+                    <div className="w-[115px] flex justify-center">
+                      <button
+                        onClick={() => dispatch(removeFromCart(product._id))}
+                        type="button"
+                        className="text-sm flex items-center gap-2 border border-primary px-4 py-1.5 rounded-full text-primary duration-300 cursor-pointer"
+                      >
+                        Remove
+                        <AiOutlineClose />
+                      </button>
+                    </div>
+                  </div>
                 ))
               ) : (
                 <p className="text-center text-base">No items in cart</p>
@@ -138,7 +172,8 @@ const CartPage = () => {
                     Clear Cart
                   </button>
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handlePayment}
                     className="text-sm sm:text-base font-medium sm:font-semibold py-2 px-3 sm:px-5 border rounded-full text-white bg-primary duration-300 cursor-pointer"
                   >
                     Checkout

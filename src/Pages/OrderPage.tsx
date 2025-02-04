@@ -1,12 +1,28 @@
+import toast from "react-hot-toast";
 import { GoDotFill } from "react-icons/go";
 import { Link } from "react-router";
 import bicle from "../assets/images/hero4.jpg";
-import { useGetOrdersQuery } from "../Redux/features/orders/orderApi";
+import {
+  useCancelOrderMutation,
+  useGetOrdersQuery,
+} from "../Redux/features/orders/orderApi";
 import { TOrderData } from "../types/orderTypes";
 import { formatDate } from "../utils/formatDate";
 
 const OrderPage = () => {
   const { data: ordersData } = useGetOrdersQuery(null);
+
+  const [cancelOrder] = useCancelOrderMutation();
+
+  const handleCancelOrder = async (orderId: string) => {
+    try {
+      await cancelOrder(orderId).unwrap();
+      toast.success("Order cancelled successfully");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Failed to cancel order");
+    }
+  };
   return (
     <section className="max-width mt-10">
       <div className="flex items-center flex-col">
@@ -38,6 +54,9 @@ const OrderPage = () => {
             <h3 className="w-[150px] text-sm font-medium text-blackish text-center">
               Order Status
             </h3>
+            <h3 className="w-[150px] text-sm font-medium text-blackish text-center">
+              Actions
+            </h3>
           </div>
           <div className="space-y-6">
             {ordersData?.data?.length > 0 ? (
@@ -65,9 +84,15 @@ const OrderPage = () => {
                     </div>
                   </div>
                   <div className="w-[150px] flex justify-center">
-                    <div className="border border-[#09cc57] text-[#09cc57] flex items-center bg-[#edfff4] px-2 py-0.5 rounded-[10px] text-sm gap-0.5">
+                    <div
+                      className={`border ${
+                        order.paymentStatus === "Paid"
+                          ? "border-[#09cc57] text-[#09cc57] bg-[#edfff4]"
+                          : "border-rose-500 text-rose-600 bg-[#ffe0e0]"
+                      } flex items-center  px-2 py-0.5 rounded-[10px] text-sm gap-0.5`}
+                    >
                       <GoDotFill className="text-xs" />
-                      <span>Paid</span>
+                      <span>{order.paymentStatus}</span>
                     </div>
                   </div>
                   <div className="w-[150px] flex justify-center">
@@ -80,10 +105,38 @@ const OrderPage = () => {
                     <p>{formatDate(order.createdAt)}</p>
                   </div>
                   <div className="w-[150px] flex justify-center">
-                    <div className="border border-[#09cc57] text-[#09cc57] flex items-center bg-[#edfff4] px-2 py-0.5 rounded-[10px] text-sm gap-0.5">
-                      <GoDotFill className="text-xs" />
-                      <span>{order.status}</span>
-                    </div>
+                    {order.status === "Cancelled" ? (
+                      <div className="border border-rose-600 text-rose-600 flex items-center bg-[#ffe0e0] px-2 py-0.5 rounded-[10px] text-sm gap-0.5">
+                        <GoDotFill className="text-xs" />
+                        <span>{order.status}</span>
+                      </div>
+                    ) : order.status === "Pending" ? (
+                      <div className="border border-blue-500 text-blue-500 flex items-center bg-[#edfff4] px-2 py-0.5 rounded-[10px] text-sm gap-0.5">
+                        <GoDotFill className="text-xs" />
+                        <span>{order.status}</span>
+                      </div>
+                    ) : order.status === "Ongoing" ? (
+                      <div className="border border-yellow-500 text-yellow-500 flex items-center bg-[#edfff4] px-2 py-0.5 rounded-[10px] text-sm gap-0.5">
+                        <GoDotFill className="text-xs" />
+                        <span>{order.status}</span>
+                      </div>
+                    ) : (
+                      <div className="border border-[#09cc57] text-[#09cc57] flex items-center bg-[#edfff4] px-2 py-0.5 rounded-[10px] text-sm gap-0.5">
+                        <GoDotFill className="text-xs" />
+                        <span>{order.status}</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="w-[150px] flex justify-center">
+                    {order.status !== "Cancelled" && (
+                      <button
+                        type="button"
+                        onClick={() => handleCancelOrder(order._id)}
+                        className="bg-primary px-4 py-1.5 text-white text-sm rounded-full"
+                      >
+                        Cancel
+                      </button>
+                    )}
                   </div>
                 </div>
               ))
