@@ -15,6 +15,7 @@ export type TUserData = {
   role: "admin" | "customer";
   isBlocked: boolean;
   avatar: string;
+  createdAt: string;
 };
 const initialState: {
   user: TUserData | null;

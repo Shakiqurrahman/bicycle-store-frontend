@@ -1,10 +1,7 @@
-import toast from "react-hot-toast";
-import { FiLogOut } from "react-icons/fi";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
-import { Link, NavLink, useNavigate } from "react-router";
+import { Link, NavLink } from "react-router";
 import logo from "../../assets/images/bicycle logo - Copy.png";
-import { logout } from "../../Redux/features/auth/authSlice";
-import { useAppDispatch } from "../../Redux/hook";
 import { dashboardLinks } from "../../Routes/AdminPaths";
 
 type TSidebarProps = {
@@ -12,9 +9,6 @@ type TSidebarProps = {
   setSidebarOpen: (isOpen: boolean) => void;
 };
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: TSidebarProps) => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
   return (
     <div>
       {/* Sidebar */}
@@ -42,6 +36,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: TSidebarProps) => {
             <NavLink
               key={index}
               to={item.path}
+              onClick={() => setSidebarOpen(false)}
               end
               className={({ isActive }) =>
                 `flex items-center px-4 py-3 text-sm rounded-lg transition-all duration-300 ${
@@ -55,19 +50,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: TSidebarProps) => {
           ))}
         </nav>
         {/* log out button  */}
-        <div className="p-4 fixed bottom-2 w-full">
+        <Link to={"/"} className="p-4 fixed bottom-2 w-full">
           <button
-            onClick={() => {
-              dispatch(logout());
-              toast.success("Log out Successful");
-              navigate("/login");
-            }}
-            className="flex items-center px-4 py-3 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-blue-50 w-full"
+            type="button"
+            className="flex items-center justify-center px-4 py-3 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-blue-50 w-full"
           >
-            <FiLogOut className="w-5 h-5 mr-3" />
-            Logout
+            <IoMdArrowRoundBack className="w-5 h-5 mr-3" />
+            Go Home
           </button>
-        </div>
+        </Link>
       </aside>
 
       {/* Overlay */}

@@ -2,6 +2,7 @@ import { FiHome } from "react-icons/fi";
 import { IoAdd } from "react-icons/io5";
 import { LuChartLine } from "react-icons/lu";
 import { PiBicycleLight, PiUsersFourLight } from "react-icons/pi";
+import ManageUsers from "../Pages/Dashboard/ManageUsers";
 
 export const adminPathsData = [
   {
@@ -20,7 +21,7 @@ export const adminPathsData = [
     icon: PiUsersFourLight,
     name: "User Management",
     path: "user-management",
-    element: `<div> Hello brother</div>`,
+    element: <ManageUsers />,
   },
   {
     icon: PiBicycleLight,

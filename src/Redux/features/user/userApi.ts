@@ -9,6 +9,13 @@ const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["user"],
     }),
+    getAllUsers: builder.query({
+      query: () => ({
+        url: "/users",
+        method: "get",
+      }),
+      providesTags: ["user"],
+    }),
 
     changePassword: builder.mutation({
       query: (passwords) => ({
@@ -27,11 +34,22 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+
+    updateUserStatus: builder.mutation({
+      query: ({ userId, isBlocked }) => ({
+        url: `/users/${userId}/status`,
+        method: "PATCH",
+        body: { isBlocked },
+      }),
+      invalidatesTags: ["user"],
+    }),
   }),
 });
 
 export const {
   useGetMeQuery,
+  useGetAllUsersQuery,
   useChangePasswordMutation,
   useUpdateProfileMutation,
+  useUpdateUserStatusMutation,
 } = userApi;
