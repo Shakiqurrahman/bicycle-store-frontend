@@ -1,50 +1,90 @@
-# React + TypeScript + Vite
+# Bicycle Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Overview
 
-Currently, two official plugins are available:
+Bicycle Store is a modern, robust platform tailored for efficient management of inventory, sales and customer interactions in a bicycle store. Built with cutting edge technologies such as Typescript, Mongoose and Zod. It ensures a type-safe and reliable development process. The integration of ESLint and Prettier promotes clean, maintainable and scalable code.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+### Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Inventory Management ( Add, update, delete bicycle details. )
+2. Order Management ( create and manage customer orders )
+3. Payment Integration ( ShurjoPay )
+4. Data validation ( Robust schema validation with Zod and ensures type safety )
+5. Code quality ( Enforced standards with ESLint and consistent code formatting with Prettier )
 
-- Configure the top-level `parserOptions` property like this:
+---
+
+### Technology Used
+
+- TypeScript - For static typing and advanced developer tooling.
+- React JS - Client Side handling.
+- React Router - library for Routing.
+- Redux Toolkit - for better management of state.
+- Tailwind CSS - for reducing the code.
+- Ant Design - for reusable components.
+- Zod - Schema declaration and validation library.
+- ESLint - Ensures code quality to best practices.
+- Prettier - Maintains consistent code formatting.
+
+---
+
+### Scripts
+
+- npm run dev - Start the development server.
+- npm run build - Build the application.
+- npm run lint - Run ESLint to check for code issues.
+- npm run lint:fix - Fixed to some errors automatically.
+
+### Getting Started
+
+#### Prerequisites
+
+Ensure you have the following installed:
+
+- Node.js v20
+- npm
+
+#### Installation
+
+1. Clone the repository:
 
 ```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+git clone https://github.com/Shakiqurrahman/bicycle-store-frontend
+cd repository-name
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Install dependencies:
 
 ```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+npm install
 ```
+
+#### Usage
+
+- Run the development server:
+
+```js
+npm run dev
+```
+
+- build for production:
+
+```js
+npm run build
+```
+
+- check the EsLint error:
+
+```js
+npm run lint
+```
+
+- fix the EsLint error:
+
+```js
+npm run lint:fix
+```
+
+### Thank You
